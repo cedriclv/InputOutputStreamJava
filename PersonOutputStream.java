@@ -1,5 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 public class PersonOutputStream {
 
@@ -9,14 +9,12 @@ public class PersonOutputStream {
         this.fileName = fileName;
     }
 
-    public void readFileContent() {
-        String line = "";
+    public void addPersonToFile(Person person){
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-            br.close();
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName, true);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(person);
+            objectOutputStream.close();
         } catch (Exception e) {
             System.err.println(e);
         }

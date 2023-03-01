@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.*;
 
 public class TeamInputStream {
@@ -8,10 +10,19 @@ public class TeamInputStream {
         this.fileName = fileName;
     }
 
-    public void addTeamToFile(ArrayList<String> teamToInput) {
-        PersonInputStream personInputStream = new PersonInputStream(fileName);
-        for (String teamMember : teamToInput) {
-            personInputStream.addPersonToFile(teamMember);
+    public ArrayList<Person> getTeamFromFile() {
+        ArrayList<Person> personsRetrieved = new ArrayList<>();
+        try {
+            FileInputStream fileInputStream = new FileInputStream(fileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            Person personRetrieved;
+            while((personRetrieved = (Person) objectInputStream.readObject()) != null){
+                personsRetrieved.add(personRetrieved);
+            }
+            objectInputStream.close();
+        } catch (Exception e) {
+            System.err.println(e);
         }
+        return personsRetrieved;
     }
 }
